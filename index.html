@@ -9,75 +9,84 @@
 
 body{
 margin:0;
-font-family:Arial;
+background:#0b0b0b;
 color:white;
+font-family:Arial;
 text-align:center;
 overflow:hidden;
 }
 
-/* FUNDO */
+/* ESTRELAS */
 
-body::before{
-content:"";
+canvas{
 position:fixed;
-width:200%;
-height:200%;
-background:linear-gradient(45deg,#ff7eb3,#ff758c,#7afcff,#ffd166);
-background-size:400% 400%;
-animation:fundo 18s infinite;
+top:0;
+left:0;
 z-index:-1;
-}
-
-@keyframes fundo{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
 }
 
 /* CAIXA */
 
 #caixa{
+
 max-width:700px;
 margin:auto;
 margin-top:120px;
-background:rgba(0,0,0,0.55);
+
+background:rgba(0,0,0,0.6);
 padding:30px;
+
 border-radius:15px;
 backdrop-filter:blur(10px);
+
 }
 
 /* TEXTO */
 
 #texto{
+
 font-size:22px;
-min-height:80px;
-transition:opacity 0.4s;
+min-height:120px;
+
 }
 
 /* BOTÕES */
 
 button{
+
 padding:12px 20px;
 margin:8px;
+
 border:none;
 border-radius:10px;
+
 background:#ff4d6d;
 color:white;
+
 font-size:16px;
+
 cursor:pointer;
 transition:0.3s;
+
 }
 
 button:hover{
+
 transform:scale(1.1);
 background:#ff3355;
+
 }
 
 /* VIDEO */
 
 #video{
 display:none;
-margin-top:25px;
+margin-top:20px;
+}
+
+video{
+max-width:100%;
+border-radius:10px;
 }
 
 </style>
@@ -85,6 +94,8 @@ margin-top:25px;
 </head>
 
 <body>
+
+<canvas id="stars"></canvas>
 
 <div id="caixa">
 
@@ -94,11 +105,11 @@ margin-top:25px;
 
 <div id="video">
 
-<iframe width="560" height="315"
-src="https://youtu.be/xsHf1lhB0B8?si=n_n1R8v--rzMd83u"
-frameborder="0"
-allowfullscreen>
-</iframe>
+<video controls>
+
+<source src="KaijuudeOhio.mp4" type="KaijuudeOhio.mp4">
+
+</video>
 
 </div>
 
@@ -106,7 +117,84 @@ allowfullscreen>
 
 <script>
 
-const historia = {
+/* FUNDO ESTRELAS */
+
+const canvas=document.getElementById("stars")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let estrelas=[]
+
+for(let i=0;i<150;i++){
+
+estrelas.push({
+
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+v:Math.random()*0.4
+
+})
+
+}
+
+function animar(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+estrelas.forEach(e=>{
+
+ctx.beginPath()
+ctx.arc(e.x,e.y,e.r,0,Math.PI*2)
+ctx.fillStyle="white"
+ctx.fill()
+
+e.y+=e.v
+
+if(e.y>canvas.height){
+
+e.y=0
+e.x=Math.random()*canvas.width
+
+}
+
+})
+
+requestAnimationFrame(animar)
+
+}
+
+animar()
+
+/* TEXTO DIGITANDO */
+
+function digitar(texto){
+
+let i=0
+
+document.getElementById("texto").innerHTML=""
+
+let intervalo=setInterval(()=>{
+
+document.getElementById("texto").innerHTML+=texto[i]
+
+i++
+
+if(i>=texto.length){
+
+clearInterval(intervalo)
+
+}
+
+},30)
+
+}
+
+/* HISTÓRIA */
+
+const historia={
 
 inicio:{
 texto:"Oi... posso te fazer algumas perguntas?",
@@ -119,13 +207,13 @@ opcoes:[
 p1b:{
 texto:"Prometo que não vai ser estranho.",
 opcoes:[
-{texto:"Ok então",destino:"p1"},
+{texto:"Ok",destino:"p1"},
 {texto:"Estou curioso",destino:"p1"}
 ]
 },
 
 p1:{
-texto:"Você gosta de perguntas aleatórias?",
+texto:"Você gosta de conversas aleatórias?",
 opcoes:[
 {texto:"Sim",destino:"p2"},
 {texto:"Não muito",destino:"p2b"}
@@ -133,237 +221,93 @@ opcoes:[
 },
 
 p2:{
-texto:"Ótimo. Então vamos continuar.",
+texto:"Então vamos ver até onde você chega.",
 opcoes:[
-{texto:"Continuar",destino:"p3"},
-{texto:"Ok",destino:"p3"}
+{texto:"Continuar",destino:"p3"}
 ]
 },
 
 p2b:{
-texto:"Tudo bem. Vou tentar não exagerar.",
+texto:"Mesmo assim você chegou até aqui.",
 opcoes:[
-{texto:"Pode continuar",destino:"p3"},
-{texto:"Vamos ver",destino:"p3"}
+{texto:"Continuar",destino:"p3"}
 ]
 },
 
 p3:{
-texto:"Você prefere conversar ou ouvir?",
+texto:"Você prefere conversar ou escutar?",
 opcoes:[
 {texto:"Conversar",destino:"p4"},
-{texto:"Ouvir",destino:"p4b"},
-{texto:"Depende da pessoa",destino:"p4c"}
+{texto:"Escutar",destino:"p4b"}
 ]
 },
 
 p4:{
 texto:"Então você deve ter muitas histórias.",
 opcoes:[
-{texto:"Talvez",destino:"p5"},
-{texto:"Algumas",destino:"p5"}
+{texto:"Continuar",destino:"p5"}
 ]
 },
 
 p4b:{
-texto:"Quem sabe ouvir geralmente entende mais.",
+texto:"Quem escuta aprende mais.",
 opcoes:[
-{texto:"Verdade",destino:"p5"},
-{texto:"Faz sentido",destino:"p5"}
-]
-},
-
-p4c:{
-texto:"Resposta inteligente.",
-opcoes:[
-{texto:"Continuar",destino:"p5"},
-{texto:"Ok",destino:"p5"}
+{texto:"Continuar",destino:"p5"}
 ]
 },
 
 p5:{
-texto:"Agora algo curioso: você prefere manhã ou noite?",
+texto:"Você acha que pequenas coisas podem alegrar alguém?",
 opcoes:[
-{texto:"Manhã",destino:"p6"},
-{texto:"Noite",destino:"p6b"},
-{texto:"Tarde",destino:"p6c"}
+{texto:"Sim",destino:"p6"},
+{texto:"Talvez",destino:"p6b"}
 ]
 },
 
 p6:{
-texto:"Manhãs têm um clima de recomeço.",
+texto:"Eu também penso assim.",
 opcoes:[
-{texto:"Concordo",destino:"p7"},
-{texto:"Talvez",destino:"p7"}
+{texto:"Continuar",destino:"p7"}
 ]
 },
 
 p6b:{
-texto:"Noites são boas para pensar.",
+texto:"Às vezes até um pequeno gesto muda um dia inteiro.",
 opcoes:[
-{texto:"Sim",destino:"p7"},
-{texto:"Às vezes",destino:"p7"}
-]
-},
-
-p6c:{
-texto:"Tardes são equilibradas.",
-opcoes:[
-{texto:"Verdade",destino:"p7"},
-{texto:"Pode ser",destino:"p7"}
+{texto:"Continuar",destino:"p7"}
 ]
 },
 
 p7:{
-texto:"Você acredita que amizades podem começar de conversas simples?",
+texto:"Agora estamos chegando perto do final.",
 opcoes:[
-{texto:"Sim",destino:"p8"},
-{texto:"Talvez",destino:"p8b"},
-{texto:"Não sei",destino:"p8c"}
+{texto:"Ok",destino:"p8"}
 ]
 },
 
 p8:{
-texto:"Eu também acho isso.",
+texto:"Mas antes eu preciso dizer uma coisa.",
 opcoes:[
-{texto:"Continuar",destino:"p9"}
-]
-},
-
-p8b:{
-texto:"Talvez seja exatamente assim que algumas começam.",
-opcoes:[
-{texto:"Interessante",destino:"p9"}
-]
-},
-
-p8c:{
-texto:"Às vezes percebemos isso depois.",
-opcoes:[
-{texto:"Pode ser",destino:"p9"}
+{texto:"O que?",destino:"p9"}
 ]
 },
 
 p9:{
-texto:"Agora uma pergunta diferente.",
+texto:"Obrigado por responder todas essas perguntas.",
 opcoes:[
-{texto:"Qual?",destino:"p10"},
-{texto:"Ok",destino:"p10"}
+{texto:"De nada",destino:"p10"},
+{texto:"Sem problema",destino:"p10"}
 ]
 },
 
 p10:{
-texto:"Se alguém estivesse pensando em você agora, o que acharia?",
-opcoes:[
-{texto:"Legal",destino:"p11"},
-{texto:"Curioso",destino:"p11b"},
-{texto:"Estranho",destino:"p11c"}
-]
-},
-
-p11:{
-texto:"Isso é uma reação boa.",
-opcoes:[
-{texto:"Continuar",destino:"p12"}
-]
-},
-
-p11b:{
-texto:"Curiosidade pode levar a boas descobertas.",
-opcoes:[
-{texto:"Continuar",destino:"p12"}
-]
-},
-
-p11c:{
-texto:"Talvez inesperado seja a palavra certa.",
-opcoes:[
-{texto:"Continuar",destino:"p12"}
-]
-},
-
-p12:{
-texto:"Você gosta de jogos?",
-opcoes:[
-{texto:"Sim",destino:"p13"},
-{texto:"Mais ou menos",destino:"p13b"}
-]
-},
-
-p13:{
-texto:"Então talvez você esteja gostando desse.",
-opcoes:[
-{texto:"Continuar",destino:"p14"}
-]
-},
-
-p13b:{
-texto:"Mesmo assim você chegou até aqui.",
-opcoes:[
-{texto:"Continuar",destino:"p14"}
-]
-},
-
-p14:{
-texto:"Agora uma pergunta simples.",
-opcoes:[
-{texto:"Ok",destino:"p15"}
-]
-},
-
-p15:{
-texto:"Você acha que pequenas coisas podem alegrar o dia de alguém?",
-opcoes:[
-{texto:"Sim",destino:"p16"},
-{texto:"Talvez",destino:"p16b"}
-]
-},
-
-p16:{
-texto:"Eu também penso assim.",
-opcoes:[
-{texto:"Continuar",destino:"p17"}
-]
-},
-
-p16b:{
-texto:"Mesmo pequenas coisas podem ter impacto.",
-opcoes:[
-{texto:"Continuar",destino:"p17"}
-]
-},
-
-p17:{
-texto:"Agora estamos chegando perto do final.",
-opcoes:[
-{texto:"Ok",destino:"p18"}
-]
-},
-
-p18:{
-texto:"Mas antes disso...",
-opcoes:[
-{texto:"Continuar",destino:"p19"}
-]
-},
-
-p19:{
-texto:"Obrigado por responder todas essas perguntas.",
-opcoes:[
-{texto:"Sem problema",destino:"p20"},
-{texto:"De nada",destino:"p20"}
-]
-},
-
-p20:{
 texto:"Talvez tudo isso tenha sido por um motivo simples.",
 opcoes:[
-{texto:"Qual?",destino:"final1"},
-{texto:"Estou curioso",destino:"final1"}
+{texto:"Qual?",destino:"final"}
 ]
 },
 
-final1:{
+final:{
 texto:"Porque às vezes é difícil dizer algo diretamente.",
 opcoes:[
 {texto:"Continuar",destino:"final2"}
@@ -373,7 +317,7 @@ opcoes:[
 final2:{
 texto:"Mas depois de tantas perguntas...",
 opcoes:[
-{texto:"Continuar",destino:"final3"}
+{texto:"...",destino:"final3"}
 ]
 },
 
@@ -385,7 +329,7 @@ opcoes:[
 },
 
 final4:{
-texto:"Então aqui vai uma coisa simples...",
+texto:"Então aqui vai uma coisa simples.",
 opcoes:[
 {texto:"...",destino:"final5"}
 ]
@@ -399,7 +343,7 @@ opcoes:[
 },
 
 video:{
-texto:"Obrigado por jogar até o final.",
+texto:"Agora um pequeno vídeo.",
 opcoes:[]
 }
 
@@ -409,25 +353,24 @@ let atual="inicio"
 
 function mostrarCena(){
 
-const cena = historia[atual]
+const cena=historia[atual]
 
-document.getElementById("texto").style.opacity=0
-
-setTimeout(()=>{
-document.getElementById("texto").innerText=cena.texto
-document.getElementById("texto").style.opacity=1
-},250)
+digitar(cena.texto)
 
 let html=""
 
 cena.opcoes.forEach(op=>{
+
 html+=`<button onclick="escolher('${op.destino}')">${op.texto}</button>`
+
 })
 
 document.getElementById("opcoes").innerHTML=html
 
 if(atual==="video"){
+
 document.getElementById("video").style.display="block"
+
 }
 
 }
