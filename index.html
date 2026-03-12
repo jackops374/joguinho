@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Uma Pergunta...</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#111;
+    color:white;
+    margin-top:80px;
+}
+
+#caixa{
+    max-width:400px;
+    margin:auto;
+}
+
+button{
+    padding:12px 20px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    background:#ff4d6d;
+    color:white;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="caixa">
+<h2 id="texto">Oi... posso te fazer uma pergunta?</h2>
+
+<div id="opcoes">
+<button onclick="pergunta2()">Pode</button>
+<button onclick="nao()">Não</button>
+</div>
+</div>
+
+<script>
+
+function pergunta2(){
+    document.getElementById("texto").innerText =
+    "Você acredita que pequenas coisas podem alegrar o dia de alguém?";
+
+    document.getElementById("opcoes").innerHTML = `
+    <button onclick="final()">Sim</button>
+    <button onclick="final()">Não</button>
+    `;
+}
+
+function nao(){
+    document.getElementById("texto").innerText =
+    "Tudo bem... mas eu queria dizer uma coisa.";
+
+    document.getElementById("opcoes").innerHTML =
+    `<button onclick="final()">Continuar</button>`;
+}
+
+function final(){
+    document.getElementById("texto").innerText =
+    "Então espero que isso alegre o seu dia...\n\nEu te amo ❤️";
+
+    document.getElementById("opcoes").innerHTML = "";
+}
+
+</script>
+
+</body>
+</html>
