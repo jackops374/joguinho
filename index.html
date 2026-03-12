@@ -1,7 +1,9 @@
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,73 +11,144 @@
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
+
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(270deg,#ffd6e7,#d6e8ff,#e8ffd6);
-background-size:600% 600%;
-animation:fundo 20s infinite;
+background:#0f1226;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+color:white;
+
 }
 
-@keyframes fundo{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+/* fundo animado */
+
+.fundo{
+
+position:fixed;
+width:100%;
+height:100%;
+z-index:-1;
+overflow:hidden;
+
 }
+
+/* bolhas */
+
+.bolha{
+
+position:absolute;
+bottom:-100px;
+width:20px;
+height:20px;
+background:rgba(255,255,255,0.1);
+border-radius:50%;
+animation:subir 12s infinite linear;
+
+}
+
+@keyframes subir{
+
+0%{
+transform:translateY(0);
+opacity:0;
+}
+
+20%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-110vh);
+opacity:0;
+}
+
+}
+
+/* caixa do jogo */
 
 #jogo{
-background:white;
+
+background:rgba(20,22,45,0.8);
+backdrop-filter:blur(10px);
 padding:30px;
 border-radius:20px;
 width:90%;
 max-width:500px;
-box-shadow:0 10px 40px rgba(0,0,0,0.2);
+box-shadow:0 0 40px rgba(0,0,0,0.5);
 text-align:center;
 animation:aparecer 0.6s;
+
 }
 
 @keyframes aparecer{
-from{opacity:0; transform:scale(0.9);}
-to{opacity:1; transform:scale(1);}
+
+from{
+opacity:0;
+transform:scale(0.9);
+}
+
+to{
+opacity:1;
+transform:scale(1);
+}
+
 }
 
 #texto{
+
 font-size:20px;
 margin-bottom:25px;
+line-height:1.4;
+
 }
 
 button{
+
 display:block;
 width:100%;
 margin:10px 0;
 padding:12px;
 border:none;
 border-radius:12px;
-background:#6fa8ff;
+background:#6b7cff;
 color:white;
 font-size:16px;
 cursor:pointer;
 transition:0.2s;
+
 }
 
 button:hover{
+
 transform:scale(1.05);
-background:#4a8cff;
+background:#8896ff;
+
 }
 
 iframe{
-margin-top:20px;
+
+margin-top:15px;
 border-radius:12px;
+border:none;
+
 }
 
 </style>
+
 </head>
 
 <body>
+
+<div class="fundo" id="fundo"></div>
 
 <div id="jogo">
 
@@ -87,70 +160,61 @@ border-radius:12px;
 
 <script>
 
-const historia = {
+/* criar bolhas animadas */
+
+const fundo=document.getElementById("fundo")
+
+for(let i=0;i<30;i++){
+
+const b=document.createElement("div")
+
+b.className="bolha"
+
+b.style.left=Math.random()*100+"%"
+b.style.animationDuration=(8+Math.random()*10)+"s"
+b.style.width=(10+Math.random()*25)+"px"
+b.style.height=b.style.width
+
+fundo.appendChild(b)
+
+}
+
+/* historia */
+
+const historia={
 
 inicio:{
-texto:"Aoba Sneijder, fiz esse humilde coiso de coisas coisas.. sei lá, só leia os coisos e responde o que tu achar melhor",
+texto:"Aoba Sneijder. Fiz esse pequeno joguinho meio aleatório. Só vai clicando nas coisas e vê onde isso vai parar.",
 opcoes:[
-{texto:"Claro!",destino:"pergunta1"},
-{texto:"Hmm... ok",destino:"pergunta1"}
+{texto:"Bora",destino:"p1"},
+{texto:"Ok então",destino:"p1"}
 ]
 },
 
-pergunta1:{
+p1:{
 texto:"Primeira pergunta: você prefere dia ou noite?",
 opcoes:[
-{texto:"Dia",destino:"dia1"},
-{texto:"Noite",destino:"noite1"}
+{texto:"Dia",destino:"dia"},
+{texto:"Noite",destino:"noite"}
 ]
 },
 
-dia1:{
-texto:"O dia tem algo animador. Parece que tudo pode acontecer.",
+dia:{
+texto:"Dia tem uma energia estranha. Parece que o mundo inteiro tá acordando junto.",
 opcoes:[
-{texto:"Verdade",destino:"pergunta2"}
+{texto:"Continuar",destino:"p2"}
 ]
 },
 
-noite1:{
-texto:"A noite é calma. Dá pra pensar em muitas coisas.",
+noite:{
+texto:"A noite é silenciosa. Dá pra pensar em muita coisa.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta2"}
+{texto:"Continuar",destino:"p2"}
 ]
 },
 
-pergunta2:{
-texto:"Agora outra pergunta: você gosta de jogos?",
-opcoes:[
-{texto:"Sim",destino:"jogo1"},
-{texto:"Mais ou menos",destino:"jogo2"},
-{texto:"Muito!",destino:"jogo3"}
-]
-},
-
-jogo1:{
-texto:"Legal! Jogos são um jeito divertido de passar o tempo.",
-opcoes:[
-{texto:"Continuar",destino:"pergunta3"}
-]
-},
-
-jogo2:{
-texto:"Tudo bem. Nem todo mundo joga sempre.",
-opcoes:[
-{texto:"Continuar",destino:"pergunta3"}
-]
-},
-
-jogo3:{
-texto:"Então você provavelmente entende esse tipo de jogo.",
-opcoes:[
-{texto:"Continuar",destino:"pergunta3"}
-]
-},
-
-pergunta3:{
-texto:"Se pudesse visitar um lugar agora, qual seria?",
+p2:{
+texto:"Agora algo aleatório: você prefere praia, montanha ou floresta?",
 opcoes:[
 {texto:"Praia",destino:"praia"},
 {texto:"Montanha",destino:"montanha"},
@@ -159,50 +223,50 @@ opcoes:[
 },
 
 praia:{
-texto:"A praia é relaxante. Som das ondas e vento.",
+texto:"Som das ondas, vento... parece tranquilo.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta4"}
+{texto:"Continuar",destino:"p3"}
 ]
 },
 
 montanha:{
-texto:"Montanhas têm vistas incríveis.",
+texto:"Montanhas têm uma vista absurda.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta4"}
+{texto:"Continuar",destino:"p3"}
 ]
 },
 
 floresta:{
-texto:"Florestas são misteriosas e bonitas.",
+texto:"Florestas são misteriosas. Parece que algo sempre está escondido.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta4"}
+{texto:"Continuar",destino:"p3"}
 ]
 },
 
-pergunta4:{
-texto:"Você prefere conversar muito ou observar mais?",
+p3:{
+texto:"Você prefere falar muito ou observar mais?",
 opcoes:[
-{texto:"Conversar",destino:"conv"},
+{texto:"Falar",destino:"fala"},
 {texto:"Observar",destino:"obs"}
 ]
 },
 
-conv:{
-texto:"Conversar é uma boa forma de conhecer alguém.",
+fala:{
+texto:"Conversar é uma boa forma de entender alguém.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta5"}
+{texto:"Continuar",destino:"p4"}
 ]
 },
 
 obs:{
 texto:"Observar também diz muito sobre as pessoas.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta5"}
+{texto:"Continuar",destino:"p4"}
 ]
 },
 
-pergunta5:{
-texto:"Agora uma pergunta aleatória: você prefere gatos ou cachorros?",
+p4:{
+texto:"Agora uma pergunta importante: gatos ou cachorros?",
 opcoes:[
 {texto:"Gatos",destino:"gato"},
 {texto:"Cachorros",destino:"cachorro"},
@@ -211,44 +275,43 @@ opcoes:[
 },
 
 gato:{
-texto:"Gatos têm um jeito curioso e tranquilo.",
+texto:"Gatos são meio misteriosos.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta6"}
+{texto:"Continuar",destino:"p5"}
 ]
 },
 
 cachorro:{
-texto:"Cachorros são muito companheiros.",
+texto:"Cachorros são extremamente leais.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta6"}
+{texto:"Continuar",destino:"p5"}
 ]
 },
 
 ambos:{
-texto:"Boa escolha. Animais são incríveis.",
+texto:"Boa resposta.",
 opcoes:[
-{texto:"Continuar",destino:"pergunta6"}
+{texto:"Continuar",destino:"p5"}
 ]
 },
 
-pergunta6:{
-texto:"Depois de tantas perguntas... você ficou curioso sobre o motivo desse jogo?",
+p5:{
+texto:"Depois de tudo isso... você deve estar pensando qual é o objetivo disso.",
 opcoes:[
 {texto:"Sim",destino:"curioso"},
-{texto:"Um pouco",destino:"curioso"},
 {texto:"Talvez",destino:"curioso"}
 ]
 },
 
 curioso:{
-texto:"Na verdade eu só queria criar algo divertido para você.",
+texto:"Na real eu só queria fazer algo diferente pra você ver.",
 opcoes:[
 {texto:"Continuar",destino:"final1"}
 ]
 },
 
 final1:{
-texto:"Mas também queria dizer algo simples.",
+texto:"Mas também queria dizer uma coisa simples.",
 opcoes:[
 {texto:"O que?",destino:"final2"}
 ]
@@ -262,7 +325,7 @@ opcoes:[
 },
 
 video:{
-texto:"Aqui está uma pequena surpresa:",
+texto:"Aqui está:",
 video:true
 }
 
@@ -277,20 +340,20 @@ const cena=historia[atual]
 document.getElementById("texto").innerText=cena.texto
 
 const opcoesDiv=document.getElementById("opcoes")
+
 opcoesDiv.innerHTML=""
 
 if(cena.video){
 
 opcoesDiv.innerHTML=`
-
 <iframe width="100%" height="280"
 src="https://streamable.com/e/wlmj4r"
 allowfullscreen>
 </iframe>
-
 `
 
 return
+
 }
 
 cena.opcoes.forEach(opcao=>{
@@ -300,8 +363,10 @@ const botao=document.createElement("button")
 botao.innerText=opcao.texto
 
 botao.onclick=()=>{
+
 atual=opcao.destino
 mostrarCena()
+
 }
 
 opcoesDiv.appendChild(botao)
@@ -315,5 +380,6 @@ mostrarCena()
 </script>
 
 </body>
+
 </html>
 ```
