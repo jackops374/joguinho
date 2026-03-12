@@ -1,481 +1,312 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perguntas</title>
+<title>Perguntas aham</title>
 
 <style>
 
-/* RESET */
-
 body{
 margin:0;
-background:#0b0b0b;
-font-family:Arial;
-color:white;
-text-align:center;
-overflow:hidden;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(270deg,#ffd6e7,#d6e8ff,#e8ffd6);
+background-size:600% 600%;
+animation:fundo 20s infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-/* FUNDO ESTRELAS */
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
+@keyframes fundo{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
-/* CAIXA */
-
-#caixa{
-
-max-width:700px;
-margin:auto;
-margin-top:100px;
-
-background:rgba(0,0,0,0.65);
-
+#jogo{
+background:white;
 padding:30px;
-
-border-radius:15px;
-
-backdrop-filter:blur(10px);
-
+border-radius:20px;
+width:90%;
+max-width:500px;
+box-shadow:0 10px 40px rgba(0,0,0,0.2);
+text-align:center;
+animation:aparecer 0.6s;
 }
 
-/* TEXTO */
+@keyframes aparecer{
+from{opacity:0; transform:scale(0.9);}
+to{opacity:1; transform:scale(1);}
+}
 
 #texto{
-
-font-size:22px;
-
-min-height:120px;
-
-line-height:1.5;
-
+font-size:20px;
+margin-bottom:25px;
 }
 
-/* BOTÕES */
-
 button{
-
-padding:12px 20px;
-
-margin:8px;
-
+display:block;
+width:100%;
+margin:10px 0;
+padding:12px;
 border:none;
-
-border-radius:10px;
-
-background:#ff4d6d;
-
+border-radius:12px;
+background:#6fa8ff;
 color:white;
-
 font-size:16px;
-
 cursor:pointer;
-
-transition:0.25s;
-
+transition:0.2s;
 }
 
 button:hover{
-
-transform:scale(1.08);
-
-background:#ff3355;
-
+transform:scale(1.05);
+background:#4a8cff;
 }
 
-/* VIDEO */
-
-#video{
-
-display:none;
-
+iframe{
 margin-top:20px;
-
-}
-
-video{
-
-max-width:100%;
-
 border-radius:12px;
-
 }
 
 </style>
-
 </head>
 
 <body>
 
-<canvas id="stars"></canvas>
+<div id="jogo">
 
-<div id="caixa">
-
-<h2 id="texto"></h2>
+<div id="texto"></div>
 
 <div id="opcoes"></div>
-
-<div id="video">
-
-<video controls>
-
-<source src="KaijuudeOhio.mp4" type="Arquivo MP4 (.mp4)">
-
-</video>
-
-</div>
 
 </div>
 
 <script>
 
-/* ===== FUNDO DE ESTRELAS ===== */
-
-const canvas = document.getElementById("stars")
-const ctx = canvas.getContext("2d")
-
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-
-let estrelas = []
-
-for(let i=0;i<160;i++){
-
-estrelas.push({
-
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2,
-v:Math.random()*0.5
-
-})
-
-}
-
-function animar(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-estrelas.forEach(e=>{
-
-ctx.beginPath()
-
-ctx.arc(e.x,e.y,e.r,0,Math.PI*2)
-
-ctx.fillStyle="white"
-
-ctx.fill()
-
-e.y += e.v
-
-if(e.y>canvas.height){
-
-e.y = 0
-e.x = Math.random()*canvas.width
-
-}
-
-})
-
-requestAnimationFrame(animar)
-
-}
-
-animar()
-
-/* ===== TEXTO DIGITANDO ===== */
-
-function digitar(texto){
-
-let i = 0
-
-document.getElementById("texto").innerHTML = ""
-
-let intervalo = setInterval(()=>{
-
-document.getElementById("texto").innerHTML += texto[i]
-
-i++
-
-if(i >= texto.length){
-
-clearInterval(intervalo)
-
-}
-
-},25)
-
-}
-
-/* ===== HISTÓRIA ===== */
-
 const historia = {
 
 inicio:{
-texto:"Oi Sneijder... posso te fazer algumas perguntas rápidas?",
+texto:"Aoba Sneijder, fiz esse humilde coiso de coisas coisas.. sei lá, só leia os coisos e responde o que tu achar melhor",
 opcoes:[
-{texto:"Claro",destino:"p1"},
-{texto:"Depende",destino:"p1b"}
+{texto:"Claro!",destino:"pergunta1"},
+{texto:"Hmm... ok",destino:"pergunta1"}
 ]
 },
 
-p1b:{
-texto:"Prometo que não vai ser estranho.",
+pergunta1:{
+texto:"Primeira pergunta: você prefere dia ou noite?",
 opcoes:[
-{texto:"Ok",destino:"p1"},
-{texto:"Estou curioso",destino:"p1"}
+{texto:"Dia",destino:"dia1"},
+{texto:"Noite",destino:"noite1"}
 ]
 },
 
-p1:{
-texto:"Você gosta de conversas aleatórias?",
+dia1:{
+texto:"O dia tem algo animador. Parece que tudo pode acontecer.",
 opcoes:[
-{texto:"Sim",destino:"p2"},
-{texto:"Não muito",destino:"p2b"}
+{texto:"Verdade",destino:"pergunta2"}
 ]
 },
 
-p2:{
-texto:"Ótimo. Então vamos continuar.",
+noite1:{
+texto:"A noite é calma. Dá pra pensar em muitas coisas.",
 opcoes:[
-{texto:"Continuar",destino:"p3"}
+{texto:"Continuar",destino:"pergunta2"}
 ]
 },
 
-p2b:{
-texto:"Tudo bem, vou tentar não exagerar.",
+pergunta2:{
+texto:"Agora outra pergunta: você gosta de jogos?",
 opcoes:[
-{texto:"Ok",destino:"p3"}
+{texto:"Sim",destino:"jogo1"},
+{texto:"Mais ou menos",destino:"jogo2"},
+{texto:"Muito!",destino:"jogo3"}
 ]
 },
 
-p3:{
-texto:"Você prefere conversar ou ouvir?",
+jogo1:{
+texto:"Legal! Jogos são um jeito divertido de passar o tempo.",
 opcoes:[
-{texto:"Conversar",destino:"p4"},
-{texto:"Ouvir",destino:"p4b"},
-{texto:"Depende da pessoa",destino:"p4c"}
+{texto:"Continuar",destino:"pergunta3"}
 ]
 },
 
-p4:{
-texto:"Então você deve ter muitas histórias.",
+jogo2:{
+texto:"Tudo bem. Nem todo mundo joga sempre.",
 opcoes:[
-{texto:"Talvez",destino:"p5"},
-{texto:"Algumas",destino:"p5"}
+{texto:"Continuar",destino:"pergunta3"}
 ]
 },
 
-p4b:{
-texto:"Quem sabe ouvir geralmente entende mais.",
+jogo3:{
+texto:"Então você provavelmente entende esse tipo de jogo.",
 opcoes:[
-{texto:"Verdade",destino:"p5"},
-{texto:"Faz sentido",destino:"p5"}
+{texto:"Continuar",destino:"pergunta3"}
 ]
 },
 
-p4c:{
-texto:"Resposta inteligente.",
+pergunta3:{
+texto:"Se pudesse visitar um lugar agora, qual seria?",
 opcoes:[
-{texto:"Continuar",destino:"p5"}
+{texto:"Praia",destino:"praia"},
+{texto:"Montanha",destino:"montanha"},
+{texto:"Floresta",destino:"floresta"}
 ]
 },
 
-p5:{
-texto:"Você prefere manhã ou noite?",
+praia:{
+texto:"A praia é relaxante. Som das ondas e vento.",
 opcoes:[
-{texto:"Manhã",destino:"p6"},
-{texto:"Noite",destino:"p6b"},
-{texto:"Tarde",destino:"p6c"}
+{texto:"Continuar",destino:"pergunta4"}
 ]
 },
 
-p6:{
-texto:"Manhãs parecem novos começos.",
+montanha:{
+texto:"Montanhas têm vistas incríveis.",
 opcoes:[
-{texto:"Sim",destino:"p7"}
+{texto:"Continuar",destino:"pergunta4"}
 ]
 },
 
-p6b:{
-texto:"Noites são boas para pensar.",
+floresta:{
+texto:"Florestas são misteriosas e bonitas.",
 opcoes:[
-{texto:"Verdade",destino:"p7"}
+{texto:"Continuar",destino:"pergunta4"}
 ]
 },
 
-p6c:{
-texto:"Tardes são equilibradas.",
+pergunta4:{
+texto:"Você prefere conversar muito ou observar mais?",
 opcoes:[
-{texto:"Concordo",destino:"p7"}
+{texto:"Conversar",destino:"conv"},
+{texto:"Observar",destino:"obs"}
 ]
 },
 
-p7:{
-texto:"Você acredita que amizades podem começar com conversas simples?",
+conv:{
+texto:"Conversar é uma boa forma de conhecer alguém.",
 opcoes:[
-{texto:"Sim",destino:"p8"},
-{texto:"Talvez",destino:"p8b"},
-{texto:"Não sei",destino:"p8c"}
+{texto:"Continuar",destino:"pergunta5"}
 ]
 },
 
-p8:{
-texto:"Eu também penso assim.",
+obs:{
+texto:"Observar também diz muito sobre as pessoas.",
 opcoes:[
-{texto:"Continuar",destino:"p9"}
+{texto:"Continuar",destino:"pergunta5"}
 ]
 },
 
-p8b:{
-texto:"Talvez seja exatamente assim que algumas começam.",
+pergunta5:{
+texto:"Agora uma pergunta aleatória: você prefere gatos ou cachorros?",
 opcoes:[
-{texto:"Interessante",destino:"p9"}
+{texto:"Gatos",destino:"gato"},
+{texto:"Cachorros",destino:"cachorro"},
+{texto:"Os dois",destino:"ambos"}
 ]
 },
 
-p8c:{
-texto:"Às vezes percebemos isso depois.",
+gato:{
+texto:"Gatos têm um jeito curioso e tranquilo.",
 opcoes:[
-{texto:"Pode ser",destino:"p9"}
+{texto:"Continuar",destino:"pergunta6"}
 ]
 },
 
-p9:{
-texto:"Agora uma pergunta diferente.",
+cachorro:{
+texto:"Cachorros são muito companheiros.",
 opcoes:[
-{texto:"Qual?",destino:"p10"}
+{texto:"Continuar",destino:"pergunta6"}
 ]
 },
 
-p10:{
-texto:"Se alguém estivesse pensando em você agora, o que acharia?",
+ambos:{
+texto:"Boa escolha. Animais são incríveis.",
 opcoes:[
-{texto:"Legal",destino:"p11"},
-{texto:"Curioso",destino:"p11b"},
-{texto:"Estranho",destino:"p11c"}
+{texto:"Continuar",destino:"pergunta6"}
 ]
 },
 
-p11:{
-texto:"Isso é uma reação boa.",
+pergunta6:{
+texto:"Depois de tantas perguntas... você ficou curioso sobre o motivo desse jogo?",
 opcoes:[
-{texto:"Continuar",destino:"p12"}
+{texto:"Sim",destino:"curioso"},
+{texto:"Um pouco",destino:"curioso"},
+{texto:"Talvez",destino:"curioso"}
 ]
 },
 
-p11b:{
-texto:"Curiosidade pode levar a boas histórias.",
+curioso:{
+texto:"Na verdade eu só queria criar algo divertido para você.",
 opcoes:[
-{texto:"Continuar",destino:"p12"}
+{texto:"Continuar",destino:"final1"}
 ]
 },
 
-p11c:{
-texto:"Talvez inesperado seja a palavra certa.",
+final1:{
+texto:"Mas também queria dizer algo simples.",
 opcoes:[
-{texto:"Continuar",destino:"p12"}
-]
-},
-
-p12:{
-texto:"Você chegou quase até o final.",
-opcoes:[
-{texto:"Continuar",destino:"p13"}
-]
-},
-
-p13:{
-texto:"Obrigado por responder todas as perguntas.",
-opcoes:[
-{texto:"De nada",destino:"final"}
-]
-},
-
-final:{
-texto:"Talvez tudo isso tenha sido por um motivo simples.",
-opcoes:[
-{texto:"Qual?",destino:"final2"}
+{texto:"O que?",destino:"final2"}
 ]
 },
 
 final2:{
-texto:"Porque às vezes é difícil dizer algo diretamente.",
-opcoes:[
-{texto:"Continuar",destino:"final3"}
-]
-},
-
-final3:{
-texto:"Mas depois de tantas perguntas...",
-opcoes:[
-{texto:"...",destino:"final4"}
-]
-},
-
-final4:{
-texto:"Eu só queria dizer uma coisa.",
-opcoes:[
-{texto:"O que?",destino:"final5"}
-]
-},
-
-final5:{
 texto:"Eu te amo.",
 opcoes:[
-{texto:"Ver vídeo",destino:"video"}
+{texto:"Ver surpresa",destino:"video"}
 ]
 },
 
 video:{
-texto:"Obrigado por jogar até o final.",
-opcoes:[]
+texto:"Aqui está uma pequena surpresa:",
+video:true
 }
 
 }
 
-/* ===== MOTOR DO JOGO ===== */
-
-let atual = "inicio"
+let atual="inicio"
 
 function mostrarCena(){
 
-const cena = historia[atual]
+const cena=historia[atual]
 
-digitar(cena.texto)
+document.getElementById("texto").innerText=cena.texto
 
-let html = ""
+const opcoesDiv=document.getElementById("opcoes")
+opcoesDiv.innerHTML=""
 
-cena.opcoes.forEach(op=>{
+if(cena.video){
 
-html += `<button onclick="escolher('${op.destino}')">${op.texto}</button>`
+opcoesDiv.innerHTML=`
+
+<iframe width="100%" height="280"
+src="https://streamable.com/e/wlmj4r"
+allowfullscreen>
+</iframe>
+
+`
+
+return
+}
+
+cena.opcoes.forEach(opcao=>{
+
+const botao=document.createElement("button")
+
+botao.innerText=opcao.texto
+
+botao.onclick=()=>{
+atual=opcao.destino
+mostrarCena()
+}
+
+opcoesDiv.appendChild(botao)
 
 })
-
-document.getElementById("opcoes").innerHTML = html
-
-if(atual === "video"){
-
-document.getElementById("video").style.display = "block"
-
-}
-
-}
-
-function escolher(destino){
-
-atual = destino
-
-mostrarCena()
 
 }
 
@@ -485,4 +316,4 @@ mostrarCena()
 
 </body>
 </html>
-
+```
