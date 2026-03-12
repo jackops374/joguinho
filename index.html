@@ -2,71 +2,122 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Pra você Sneijder</title>
+<title>Perguntas</title>
 
 <style>
 body{
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background:#111;
-    color:white;
-    margin-top:80px;
-}
-
-#caixa{
-    max-width:400px;
-    margin:auto;
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+margin-top:80px;
 }
 
 button{
-    padding:12px 20px;
-    margin:10px;
-    border:none;
-    border-radius:8px;
-    background:#ff4d6d;
-    color:white;
-    font-size:16px;
+padding:10px 20px;
+margin:10px;
+border:none;
+border-radius:6px;
+background:#ff4d6d;
+color:white;
+font-size:16px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="caixa">
-<h2 id="texto">Oi Sneijder Araújo... posso te fazer uma pergunta?</h2>
-
-<div id="opcoes">
-<button onclick="pergunta2()">Pode</button>
-<button onclick="nao()">Não</button>
-</div>
-</div>
+<h2 id="texto"></h2>
+<div id="opcoes"></div>
 
 <script>
 
-function pergunta2(){
-    document.getElementById("texto").innerText =
-    "Você realmente está bem?";
+const historia = {
 
-    document.getElementById("opcoes").innerHTML = `
-    <button onclick="final()">Sim</button>
-    <button onclick="final()">Não</button>
-    `;
+inicio:{
+texto:"Posso te fazer algumas perguntas?",
+opcoes:[
+{texto:"Claro", destino:"pergunta1"},
+{texto:"Depende...", destino:"curioso"}
+]
+},
+
+curioso:{
+texto:"Então vamos ver se você continua curioso.",
+opcoes:[
+{texto:"Ok", destino:"pergunta1"},
+{texto:"Agora fiquei interessado", destino:"pergunta1"}
+]
+},
+
+pergunta1:{
+texto:"Você acredita que pequenas coisas podem mudar o dia de alguém?",
+opcoes:[
+{texto:"Sim", destino:"esperanca"},
+{texto:"Não muito", destino:"ceticismo"}
+]
+},
+
+esperanca:{
+texto:"Isso é bom. Pessoas assim costumam perceber sentimentos escondidos.",
+opcoes:[
+{texto:"Que tipo de sentimentos?", destino:"pergunta2"},
+{texto:"Interessante...", destino:"pergunta2"}
+]
+},
+
+ceticismo:{
+texto:"Talvez você só não tenha encontrado a pessoa certa ainda.",
+opcoes:[
+{texto:"Talvez", destino:"pergunta2"},
+{texto:"Quem sabe", destino:"pergunta2"}
+]
+},
+
+pergunta2:{
+texto:"Se alguém estivesse pensando em você agora, o que você sentiria?",
+opcoes:[
+{texto:"Ficaria feliz", destino:"finalamor"},
+{texto:"Depende de quem", destino:"finalcurioso"}
+]
+},
+
+finalamor:{
+texto:"Então espero que isso te faça sorrir um pouco... Eu te amo ❤️",
+opcoes:[]
+},
+
+finalcurioso:{
+texto:"Então talvez você devesse descobrir quem estava pensando em você... Eu te amo ❤️",
+opcoes:[]
 }
 
-function nao(){
-    document.getElementById("texto").innerText =
-    "Por isso eu sempre digo, fale comigo sempre que quiser... Eu gosto de tua presença e sempre te escuto, mesmo que cague pra isso.";
-
-    document.getElementById("opcoes").innerHTML =
-    `<button onclick="final()">Continuar</button>`;
 }
 
-function final(){
-    document.getElementById("texto").innerText =
-    ".Pode sempre ser idiotice, sei que você estranha eu em rarissimas vezes escrever isso. Porém\n\nEu amo você ❤️";
+let atual="inicio"
 
-    document.getElementById("opcoes").innerHTML = "";
+function mostrarCena(){
+
+const cena = historia[atual]
+
+document.getElementById("texto").innerText=cena.texto
+
+let html=""
+
+cena.opcoes.forEach(op=>{
+html+=`<button onclick="escolher('${op.destino}')">${op.texto}</button>`
+})
+
+document.getElementById("opcoes").innerHTML=html
+
 }
+
+function escolher(destino){
+atual=destino
+mostrarCena()
+}
+
+mostrarCena()
 
 </script>
 
