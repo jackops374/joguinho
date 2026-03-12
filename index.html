@@ -33,7 +33,7 @@ button{
 <body>
 
 <div id="caixa">
-<h2 id="texto">Oi... posso te fazer uma pergunta?</h2>
+<h2 id="texto">Oi Sneijder... posso te fazer uma pergunta?</h2>
 
 <div id="opcoes">
 <button onclick="pergunta2()">Pode</button>
@@ -45,7 +45,7 @@ button{
 
 function pergunta2(){
     document.getElementById("texto").innerText =
-    "Você acredita que pequenas coisas podem alegrar o dia de alguém?";
+    "Você realmente está bem?";
 
     document.getElementById("opcoes").innerHTML = `
     <button onclick="final()">Sim</button>
@@ -55,7 +55,7 @@ function pergunta2(){
 
 function nao(){
     document.getElementById("texto").innerText =
-    "Tudo bem... mas eu queria dizer uma coisa.";
+    "Não me ignore, adoro falar sempre contigo e sempre saber se você está bem, mesmo que você não se importe.";
 
     document.getElementById("opcoes").innerHTML =
     `<button onclick="final()">Continuar</button>`;
@@ -63,7 +63,7 @@ function nao(){
 
 function final(){
     document.getElementById("texto").innerText =
-    "Então espero que isso alegre o seu dia...\n\nEu te amo ❤️";
+    "Desculpa se não demonstro muito, fique bem...\n\nEu amo você ❤️";
 
     document.getElementById("opcoes").innerHTML = "";
 }
@@ -71,4 +71,5 @@ function final(){
 </script>
 
 </body>
+
 </html>
