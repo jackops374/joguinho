@@ -1,41 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <title>Perguntas</title>
 
 <style>
+
 body{
-background:#111;
-color:white;
+margin:0;
 font-family:Arial;
+color:white;
 text-align:center;
-margin-top:80px;
+overflow:hidden;
 }
+
+/* FUNDO */
+
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+background:linear-gradient(45deg,#ff7eb3,#ff758c,#7afcff,#ffd166);
+background-size:400% 400%;
+animation:fundo 18s infinite;
+z-index:-1;
+}
+
+@keyframes fundo{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* CAIXA */
 
 #caixa{
-max-width:500px;
+max-width:700px;
 margin:auto;
+margin-top:120px;
+background:rgba(0,0,0,0.55);
+padding:30px;
+border-radius:15px;
+backdrop-filter:blur(10px);
 }
 
+/* TEXTO */
+
+#texto{
+font-size:22px;
+min-height:80px;
+transition:opacity 0.4s;
+}
+
+/* BOTÕES */
+
 button{
-padding:12px 18px;
+padding:12px 20px;
 margin:8px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#ff4d6d;
 color:white;
 font-size:16px;
 cursor:pointer;
+transition:0.3s;
 }
+
+button:hover{
+transform:scale(1.1);
+background:#ff3355;
+}
+
+/* VIDEO */
+
+#video{
+display:none;
+margin-top:25px;
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div id="caixa">
+
 <h2 id="texto"></h2>
+
 <div id="opcoes"></div>
+
+<div id="video">
+
+<iframe width="560" height="315"
+src="https://youtu.be/xsHf1lhB0B8?si=n_n1R8v--rzMd83u"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+</div>
+
 </div>
 
 <script>
@@ -43,64 +109,64 @@ cursor:pointer;
 const historia = {
 
 inicio:{
-texto:"Oi... posso te fazer algumas perguntas? Prometo que não vai demorar muito.",
+texto:"Oi... posso te fazer algumas perguntas?",
 opcoes:[
 {texto:"Claro",destino:"p1"},
-{texto:"Depende",destino:"curioso"}
+{texto:"Depende",destino:"p1b"}
 ]
 },
 
-curioso:{
-texto:"Justo. Então vamos começar com algo simples.",
+p1b:{
+texto:"Prometo que não vai ser estranho.",
 opcoes:[
-{texto:"Ok",destino:"p1"},
-{texto:"Agora fiquei curioso",destino:"p1"}
+{texto:"Ok então",destino:"p1"},
+{texto:"Estou curioso",destino:"p1"}
 ]
 },
 
 p1:{
-texto:"Você gosta de perguntas estranhas?",
+texto:"Você gosta de perguntas aleatórias?",
 opcoes:[
 {texto:"Sim",destino:"p2"},
-{texto:"Nem tanto",destino:"p2b"}
+{texto:"Não muito",destino:"p2b"}
 ]
 },
 
 p2:{
-texto:"Então essa conversa vai ser perfeita.",
+texto:"Ótimo. Então vamos continuar.",
 opcoes:[
 {texto:"Continuar",destino:"p3"},
-{texto:"Vamos ver",destino:"p3"}
+{texto:"Ok",destino:"p3"}
 ]
 },
 
 p2b:{
-texto:"Tudo bem, vou tentar não exagerar.",
+texto:"Tudo bem. Vou tentar não exagerar.",
 opcoes:[
-{texto:"Ok",destino:"p3"},
-{texto:"Estou ouvindo",destino:"p3"}
+{texto:"Pode continuar",destino:"p3"},
+{texto:"Vamos ver",destino:"p3"}
 ]
 },
 
 p3:{
-texto:"Primeira pergunta de verdade: você acredita que pequenas coisas podem melhorar o dia de alguém?",
+texto:"Você prefere conversar ou ouvir?",
 opcoes:[
-{texto:"Sim",destino:"p4"},
-{texto:"Talvez",destino:"p4b"},
-{texto:"Não muito",destino:"p4c"}
+{texto:"Conversar",destino:"p4"},
+{texto:"Ouvir",destino:"p4b"},
+{texto:"Depende da pessoa",destino:"p4c"}
 ]
 },
 
 p4:{
-texto:"Interessante. Pessoas assim costumam reparar em detalhes.",
+texto:"Então você deve ter muitas histórias.",
 opcoes:[
-{texto:"Que tipo?",destino:"p5"},
-{texto:"Talvez",destino:"p5"}
+{texto:"Talvez",destino:"p5"},
+{texto:"Algumas",destino:"p5"}
 ]
 },
 
 p4b:{
-texto:"Às vezes a gente só percebe depois.",
+texto:"Quem sabe ouvir geralmente entende mais.",
 opcoes:[
 {texto:"Verdade",destino:"p5"},
 {texto:"Faz sentido",destino:"p5"}
@@ -108,80 +174,86 @@ opcoes:[
 },
 
 p4c:{
-texto:"Talvez você só não tenha encontrado o momento certo ainda.",
+texto:"Resposta inteligente.",
 opcoes:[
-{texto:"Pode ser",destino:"p5"},
-{texto:"Continuar",destino:"p5"}
+{texto:"Continuar",destino:"p5"},
+{texto:"Ok",destino:"p5"}
 ]
 },
 
 p5:{
-texto:"Segunda pergunta: você gosta mais de conversar ou de ouvir?",
+texto:"Agora algo curioso: você prefere manhã ou noite?",
 opcoes:[
-{texto:"Conversar",destino:"p6"},
-{texto:"Ouvir",destino:"p6b"},
-{texto:"Depende do assunto",destino:"p6c"}
+{texto:"Manhã",destino:"p6"},
+{texto:"Noite",destino:"p6b"},
+{texto:"Tarde",destino:"p6c"}
 ]
 },
 
 p6:{
-texto:"Então você provavelmente tem muitas histórias.",
+texto:"Manhãs têm um clima de recomeço.",
 opcoes:[
-{texto:"Algumas",destino:"p7"},
+{texto:"Concordo",destino:"p7"},
 {texto:"Talvez",destino:"p7"}
 ]
 },
 
 p6b:{
-texto:"Quem sabe ouvir normalmente entende melhor as pessoas.",
+texto:"Noites são boas para pensar.",
 opcoes:[
-{texto:"Faz sentido",destino:"p7"},
-{texto:"Talvez",destino:"p7"}
+{texto:"Sim",destino:"p7"},
+{texto:"Às vezes",destino:"p7"}
 ]
 },
 
 p6c:{
-texto:"Resposta diplomática.",
+texto:"Tardes são equilibradas.",
 opcoes:[
-{texto:"Continuar",destino:"p7"},
-{texto:"Próxima pergunta",destino:"p7"}
+{texto:"Verdade",destino:"p7"},
+{texto:"Pode ser",destino:"p7"}
 ]
 },
 
 p7:{
-texto:"Agora uma pergunta curiosa: você prefere noites tranquilas ou dias cheios de coisas?",
+texto:"Você acredita que amizades podem começar de conversas simples?",
 opcoes:[
-{texto:"Noites tranquilas",destino:"p8"},
-{texto:"Dias agitados",destino:"p8b"}
+{texto:"Sim",destino:"p8"},
+{texto:"Talvez",destino:"p8b"},
+{texto:"Não sei",destino:"p8c"}
 ]
 },
 
 p8:{
-texto:"Noites tranquilas costumam ser boas para pensar.",
+texto:"Eu também acho isso.",
 opcoes:[
-{texto:"Concordo",destino:"p9"},
-{texto:"Talvez",destino:"p9"}
+{texto:"Continuar",destino:"p9"}
 ]
 },
 
 p8b:{
-texto:"Energia alta então.",
+texto:"Talvez seja exatamente assim que algumas começam.",
 opcoes:[
-{texto:"Sim",destino:"p9"},
-{texto:"Às vezes",destino:"p9"}
+{texto:"Interessante",destino:"p9"}
+]
+},
+
+p8c:{
+texto:"Às vezes percebemos isso depois.",
+opcoes:[
+{texto:"Pode ser",destino:"p9"}
 ]
 },
 
 p9:{
-texto:"Agora uma pergunta importante.",
+texto:"Agora uma pergunta diferente.",
 opcoes:[
-{texto:"Ok...",destino:"p10"},
-{texto:"Vamos lá",destino:"p10"}
+{texto:"Qual?",destino:"p10"},
+{texto:"Ok",destino:"p10"}
 ]
 },
 
 p10:{
-texto:"Se alguém estivesse pensando em você agora, o que você acharia?",
+texto:"Se alguém estivesse pensando em você agora, o que acharia?",
 opcoes:[
 {texto:"Legal",destino:"p11"},
 {texto:"Curioso",destino:"p11b"},
@@ -190,58 +262,144 @@ opcoes:[
 },
 
 p11:{
-texto:"Isso é uma boa reação.",
+texto:"Isso é uma reação boa.",
 opcoes:[
-{texto:"Por quê?",destino:"p12"},
 {texto:"Continuar",destino:"p12"}
 ]
 },
 
 p11b:{
-texto:"Curiosidade é sempre interessante.",
+texto:"Curiosidade pode levar a boas descobertas.",
 opcoes:[
-{texto:"Então...",destino:"p12"},
-{texto:"Ok",destino:"p12"}
+{texto:"Continuar",destino:"p12"}
 ]
 },
 
 p11c:{
-texto:"Estranho às vezes significa inesperado.",
+texto:"Talvez inesperado seja a palavra certa.",
 opcoes:[
-{texto:"Talvez",destino:"p12"},
 {texto:"Continuar",destino:"p12"}
 ]
 },
 
 p12:{
-texto:"Porque às vezes alguém só quer lembrar que você é importante.",
+texto:"Você gosta de jogos?",
 opcoes:[
-{texto:"Sério?",destino:"p13"},
-{texto:"Interessante",destino:"p13"}
+{texto:"Sim",destino:"p13"},
+{texto:"Mais ou menos",destino:"p13b"}
 ]
 },
 
 p13:{
-texto:"E essa conversa toda tinha um pequeno motivo.",
+texto:"Então talvez você esteja gostando desse.",
+opcoes:[
+{texto:"Continuar",destino:"p14"}
+]
+},
+
+p13b:{
+texto:"Mesmo assim você chegou até aqui.",
+opcoes:[
+{texto:"Continuar",destino:"p14"}
+]
+},
+
+p14:{
+texto:"Agora uma pergunta simples.",
+opcoes:[
+{texto:"Ok",destino:"p15"}
+]
+},
+
+p15:{
+texto:"Você acha que pequenas coisas podem alegrar o dia de alguém?",
+opcoes:[
+{texto:"Sim",destino:"p16"},
+{texto:"Talvez",destino:"p16b"}
+]
+},
+
+p16:{
+texto:"Eu também penso assim.",
+opcoes:[
+{texto:"Continuar",destino:"p17"}
+]
+},
+
+p16b:{
+texto:"Mesmo pequenas coisas podem ter impacto.",
+opcoes:[
+{texto:"Continuar",destino:"p17"}
+]
+},
+
+p17:{
+texto:"Agora estamos chegando perto do final.",
+opcoes:[
+{texto:"Ok",destino:"p18"}
+]
+},
+
+p18:{
+texto:"Mas antes disso...",
+opcoes:[
+{texto:"Continuar",destino:"p19"}
+]
+},
+
+p19:{
+texto:"Obrigado por responder todas essas perguntas.",
+opcoes:[
+{texto:"Sem problema",destino:"p20"},
+{texto:"De nada",destino:"p20"}
+]
+},
+
+p20:{
+texto:"Talvez tudo isso tenha sido por um motivo simples.",
 opcoes:[
 {texto:"Qual?",destino:"final1"},
-{texto:"Estou curioso",destino:"final2"},
-{texto:"Já imagino",destino:"final3"}
+{texto:"Estou curioso",destino:"final1"}
 ]
 },
 
 final1:{
-texto:"Só queria dizer que você é uma pessoa bem legal.",
-opcoes:[]
+texto:"Porque às vezes é difícil dizer algo diretamente.",
+opcoes:[
+{texto:"Continuar",destino:"final2"}
+]
 },
 
 final2:{
-texto:"Às vezes um simples gesto pode melhorar o dia de alguém.",
-opcoes:[]
+texto:"Mas depois de tantas perguntas...",
+opcoes:[
+{texto:"Continuar",destino:"final3"}
+]
 },
 
 final3:{
-texto:"Então aqui vai uma coisa simples... eu te amo.",
+texto:"Talvez seja mais fácil dizer agora.",
+opcoes:[
+{texto:"Ok",destino:"final4"}
+]
+},
+
+final4:{
+texto:"Então aqui vai uma coisa simples...",
+opcoes:[
+{texto:"...",destino:"final5"}
+]
+},
+
+final5:{
+texto:"Eu te amo.",
+opcoes:[
+{texto:"Ver surpresa",destino:"video"}
+]
+},
+
+video:{
+texto:"Obrigado por jogar até o final.",
 opcoes:[]
 }
 
@@ -253,7 +411,12 @@ function mostrarCena(){
 
 const cena = historia[atual]
 
+document.getElementById("texto").style.opacity=0
+
+setTimeout(()=>{
 document.getElementById("texto").innerText=cena.texto
+document.getElementById("texto").style.opacity=1
+},250)
 
 let html=""
 
@@ -263,11 +426,18 @@ html+=`<button onclick="escolher('${op.destino}')">${op.texto}</button>`
 
 document.getElementById("opcoes").innerHTML=html
 
+if(atual==="video"){
+document.getElementById("video").style.display="block"
+}
+
 }
 
 function escolher(destino){
+
 atual=destino
+
 mostrarCena()
+
 }
 
 mostrarCena()
