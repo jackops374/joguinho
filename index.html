@@ -6,89 +6,242 @@
 
 <style>
 body{
-font-family:Arial;
 background:#111;
 color:white;
+font-family:Arial;
 text-align:center;
 margin-top:80px;
 }
 
+#caixa{
+max-width:500px;
+margin:auto;
+}
+
 button{
-padding:10px 20px;
-margin:10px;
+padding:12px 18px;
+margin:8px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 background:#ff4d6d;
 color:white;
 font-size:16px;
+cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
+<div id="caixa">
 <h2 id="texto"></h2>
 <div id="opcoes"></div>
+</div>
 
 <script>
 
 const historia = {
 
 inicio:{
-texto:"Posso te fazer algumas perguntas?",
+texto:"Oi... posso te fazer algumas perguntas? Prometo que não vai demorar muito.",
 opcoes:[
-{texto:"Claro", destino:"pergunta1"},
-{texto:"Depende...", destino:"curioso"}
+{texto:"Claro",destino:"p1"},
+{texto:"Depende",destino:"curioso"}
 ]
 },
 
 curioso:{
-texto:"Então vamos ver se você continua curioso.",
+texto:"Justo. Então vamos começar com algo simples.",
 opcoes:[
-{texto:"Ok", destino:"pergunta1"},
-{texto:"Agora fiquei interessado", destino:"pergunta1"}
+{texto:"Ok",destino:"p1"},
+{texto:"Agora fiquei curioso",destino:"p1"}
 ]
 },
 
-pergunta1:{
-texto:"Você acredita que pequenas coisas podem mudar o dia de alguém?",
+p1:{
+texto:"Você gosta de perguntas estranhas?",
 opcoes:[
-{texto:"Sim", destino:"esperanca"},
-{texto:"Não muito", destino:"ceticismo"}
+{texto:"Sim",destino:"p2"},
+{texto:"Nem tanto",destino:"p2b"}
 ]
 },
 
-esperanca:{
-texto:"Isso é bom. Pessoas assim costumam perceber sentimentos escondidos.",
+p2:{
+texto:"Então essa conversa vai ser perfeita.",
 opcoes:[
-{texto:"Que tipo de sentimentos?", destino:"pergunta2"},
-{texto:"Interessante...", destino:"pergunta2"}
+{texto:"Continuar",destino:"p3"},
+{texto:"Vamos ver",destino:"p3"}
 ]
 },
 
-ceticismo:{
-texto:"Talvez você só não tenha encontrado a pessoa certa ainda.",
+p2b:{
+texto:"Tudo bem, vou tentar não exagerar.",
 opcoes:[
-{texto:"Talvez", destino:"pergunta2"},
-{texto:"Quem sabe", destino:"pergunta2"}
+{texto:"Ok",destino:"p3"},
+{texto:"Estou ouvindo",destino:"p3"}
 ]
 },
 
-pergunta2:{
-texto:"Se alguém estivesse pensando em você agora, o que você sentiria?",
+p3:{
+texto:"Primeira pergunta de verdade: você acredita que pequenas coisas podem melhorar o dia de alguém?",
 opcoes:[
-{texto:"Ficaria feliz", destino:"finalamor"},
-{texto:"Depende de quem", destino:"finalcurioso"}
+{texto:"Sim",destino:"p4"},
+{texto:"Talvez",destino:"p4b"},
+{texto:"Não muito",destino:"p4c"}
 ]
 },
 
-finalamor:{
-texto:"Então espero que isso te faça sorrir um pouco... Eu te amo ❤️",
+p4:{
+texto:"Interessante. Pessoas assim costumam reparar em detalhes.",
+opcoes:[
+{texto:"Que tipo?",destino:"p5"},
+{texto:"Talvez",destino:"p5"}
+]
+},
+
+p4b:{
+texto:"Às vezes a gente só percebe depois.",
+opcoes:[
+{texto:"Verdade",destino:"p5"},
+{texto:"Faz sentido",destino:"p5"}
+]
+},
+
+p4c:{
+texto:"Talvez você só não tenha encontrado o momento certo ainda.",
+opcoes:[
+{texto:"Pode ser",destino:"p5"},
+{texto:"Continuar",destino:"p5"}
+]
+},
+
+p5:{
+texto:"Segunda pergunta: você gosta mais de conversar ou de ouvir?",
+opcoes:[
+{texto:"Conversar",destino:"p6"},
+{texto:"Ouvir",destino:"p6b"},
+{texto:"Depende do assunto",destino:"p6c"}
+]
+},
+
+p6:{
+texto:"Então você provavelmente tem muitas histórias.",
+opcoes:[
+{texto:"Algumas",destino:"p7"},
+{texto:"Talvez",destino:"p7"}
+]
+},
+
+p6b:{
+texto:"Quem sabe ouvir normalmente entende melhor as pessoas.",
+opcoes:[
+{texto:"Faz sentido",destino:"p7"},
+{texto:"Talvez",destino:"p7"}
+]
+},
+
+p6c:{
+texto:"Resposta diplomática.",
+opcoes:[
+{texto:"Continuar",destino:"p7"},
+{texto:"Próxima pergunta",destino:"p7"}
+]
+},
+
+p7:{
+texto:"Agora uma pergunta curiosa: você prefere noites tranquilas ou dias cheios de coisas?",
+opcoes:[
+{texto:"Noites tranquilas",destino:"p8"},
+{texto:"Dias agitados",destino:"p8b"}
+]
+},
+
+p8:{
+texto:"Noites tranquilas costumam ser boas para pensar.",
+opcoes:[
+{texto:"Concordo",destino:"p9"},
+{texto:"Talvez",destino:"p9"}
+]
+},
+
+p8b:{
+texto:"Energia alta então.",
+opcoes:[
+{texto:"Sim",destino:"p9"},
+{texto:"Às vezes",destino:"p9"}
+]
+},
+
+p9:{
+texto:"Agora uma pergunta importante.",
+opcoes:[
+{texto:"Ok...",destino:"p10"},
+{texto:"Vamos lá",destino:"p10"}
+]
+},
+
+p10:{
+texto:"Se alguém estivesse pensando em você agora, o que você acharia?",
+opcoes:[
+{texto:"Legal",destino:"p11"},
+{texto:"Curioso",destino:"p11b"},
+{texto:"Estranho",destino:"p11c"}
+]
+},
+
+p11:{
+texto:"Isso é uma boa reação.",
+opcoes:[
+{texto:"Por quê?",destino:"p12"},
+{texto:"Continuar",destino:"p12"}
+]
+},
+
+p11b:{
+texto:"Curiosidade é sempre interessante.",
+opcoes:[
+{texto:"Então...",destino:"p12"},
+{texto:"Ok",destino:"p12"}
+]
+},
+
+p11c:{
+texto:"Estranho às vezes significa inesperado.",
+opcoes:[
+{texto:"Talvez",destino:"p12"},
+{texto:"Continuar",destino:"p12"}
+]
+},
+
+p12:{
+texto:"Porque às vezes alguém só quer lembrar que você é importante.",
+opcoes:[
+{texto:"Sério?",destino:"p13"},
+{texto:"Interessante",destino:"p13"}
+]
+},
+
+p13:{
+texto:"E essa conversa toda tinha um pequeno motivo.",
+opcoes:[
+{texto:"Qual?",destino:"final1"},
+{texto:"Estou curioso",destino:"final2"},
+{texto:"Já imagino",destino:"final3"}
+]
+},
+
+final1:{
+texto:"Só queria dizer que você é uma pessoa bem legal.",
 opcoes:[]
 },
 
-finalcurioso:{
-texto:"Então talvez você devesse descobrir quem estava pensando em você... Eu te amo ❤️",
+final2:{
+texto:"Às vezes um simples gesto pode melhorar o dia de alguém.",
+opcoes:[]
+},
+
+final3:{
+texto:"Então aqui vai uma coisa simples... eu te amo.",
 opcoes:[]
 }
 
