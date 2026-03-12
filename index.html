@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Perguntas</title>
 
 <style>
 
+/* RESET */
+
 body{
 margin:0;
 background:#0b0b0b;
-color:white;
 font-family:Arial;
+color:white;
 text-align:center;
 overflow:hidden;
 }
 
-/* ESTRELAS */
+/* FUNDO ESTRELAS */
 
 canvas{
 position:fixed;
@@ -31,12 +36,14 @@ z-index:-1;
 
 max-width:700px;
 margin:auto;
-margin-top:120px;
+margin-top:100px;
 
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.65);
+
 padding:30px;
 
 border-radius:15px;
+
 backdrop-filter:blur(10px);
 
 }
@@ -46,7 +53,10 @@ backdrop-filter:blur(10px);
 #texto{
 
 font-size:22px;
+
 min-height:120px;
+
+line-height:1.5;
 
 }
 
@@ -55,24 +65,29 @@ min-height:120px;
 button{
 
 padding:12px 20px;
+
 margin:8px;
 
 border:none;
+
 border-radius:10px;
 
 background:#ff4d6d;
+
 color:white;
 
 font-size:16px;
 
 cursor:pointer;
-transition:0.3s;
+
+transition:0.25s;
 
 }
 
 button:hover{
 
-transform:scale(1.1);
+transform:scale(1.08);
+
 background:#ff3355;
 
 }
@@ -80,13 +95,19 @@ background:#ff3355;
 /* VIDEO */
 
 #video{
+
 display:none;
+
 margin-top:20px;
+
 }
 
 video{
+
 max-width:100%;
-border-radius:10px;
+
+border-radius:12px;
+
 }
 
 </style>
@@ -107,7 +128,7 @@ border-radius:10px;
 
 <video controls>
 
-<source src="KaijuudeOhio.mp4" type="KaijuudeOhio.mp4">
+<source src="KaijuudeOhio.mp4" type="video/mp4">
 
 </video>
 
@@ -117,24 +138,24 @@ border-radius:10px;
 
 <script>
 
-/* FUNDO ESTRELAS */
+/* ===== FUNDO DE ESTRELAS ===== */
 
-const canvas=document.getElementById("stars")
-const ctx=canvas.getContext("2d")
+const canvas = document.getElementById("stars")
+const ctx = canvas.getContext("2d")
 
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
-let estrelas=[]
+let estrelas = []
 
-for(let i=0;i<150;i++){
+for(let i=0;i<160;i++){
 
 estrelas.push({
 
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*2,
-v:Math.random()*0.4
+v:Math.random()*0.5
 
 })
 
@@ -147,16 +168,19 @@ ctx.clearRect(0,0,canvas.width,canvas.height)
 estrelas.forEach(e=>{
 
 ctx.beginPath()
+
 ctx.arc(e.x,e.y,e.r,0,Math.PI*2)
+
 ctx.fillStyle="white"
+
 ctx.fill()
 
-e.y+=e.v
+e.y += e.v
 
 if(e.y>canvas.height){
 
-e.y=0
-e.x=Math.random()*canvas.width
+e.y = 0
+e.x = Math.random()*canvas.width
 
 }
 
@@ -168,36 +192,36 @@ requestAnimationFrame(animar)
 
 animar()
 
-/* TEXTO DIGITANDO */
+/* ===== TEXTO DIGITANDO ===== */
 
 function digitar(texto){
 
-let i=0
+let i = 0
 
-document.getElementById("texto").innerHTML=""
+document.getElementById("texto").innerHTML = ""
 
-let intervalo=setInterval(()=>{
+let intervalo = setInterval(()=>{
 
-document.getElementById("texto").innerHTML+=texto[i]
+document.getElementById("texto").innerHTML += texto[i]
 
 i++
 
-if(i>=texto.length){
+if(i >= texto.length){
 
 clearInterval(intervalo)
 
 }
 
-},30)
+},25)
 
 }
 
-/* HISTÓRIA */
+/* ===== HISTÓRIA ===== */
 
-const historia={
+const historia = {
 
 inicio:{
-texto:"Oi... posso te fazer algumas perguntas?",
+texto:"Oi... posso te fazer algumas perguntas rápidas?",
 opcoes:[
 {texto:"Claro",destino:"p1"},
 {texto:"Depende",destino:"p1b"}
@@ -221,155 +245,227 @@ opcoes:[
 },
 
 p2:{
-texto:"Então vamos ver até onde você chega.",
+texto:"Ótimo. Então vamos continuar.",
 opcoes:[
 {texto:"Continuar",destino:"p3"}
 ]
 },
 
 p2b:{
-texto:"Mesmo assim você chegou até aqui.",
+texto:"Tudo bem, vou tentar não exagerar.",
 opcoes:[
-{texto:"Continuar",destino:"p3"}
+{texto:"Ok",destino:"p3"}
 ]
 },
 
 p3:{
-texto:"Você prefere conversar ou escutar?",
+texto:"Você prefere conversar ou ouvir?",
 opcoes:[
 {texto:"Conversar",destino:"p4"},
-{texto:"Escutar",destino:"p4b"}
+{texto:"Ouvir",destino:"p4b"},
+{texto:"Depende da pessoa",destino:"p4c"}
 ]
 },
 
 p4:{
 texto:"Então você deve ter muitas histórias.",
 opcoes:[
-{texto:"Continuar",destino:"p5"}
+{texto:"Talvez",destino:"p5"},
+{texto:"Algumas",destino:"p5"}
 ]
 },
 
 p4b:{
-texto:"Quem escuta aprende mais.",
+texto:"Quem sabe ouvir geralmente entende mais.",
+opcoes:[
+{texto:"Verdade",destino:"p5"},
+{texto:"Faz sentido",destino:"p5"}
+]
+},
+
+p4c:{
+texto:"Resposta inteligente.",
 opcoes:[
 {texto:"Continuar",destino:"p5"}
 ]
 },
 
 p5:{
-texto:"Você acha que pequenas coisas podem alegrar alguém?",
+texto:"Você prefere manhã ou noite?",
 opcoes:[
-{texto:"Sim",destino:"p6"},
-{texto:"Talvez",destino:"p6b"}
+{texto:"Manhã",destino:"p6"},
+{texto:"Noite",destino:"p6b"},
+{texto:"Tarde",destino:"p6c"}
 ]
 },
 
 p6:{
-texto:"Eu também penso assim.",
+texto:"Manhãs parecem novos começos.",
 opcoes:[
-{texto:"Continuar",destino:"p7"}
+{texto:"Sim",destino:"p7"}
 ]
 },
 
 p6b:{
-texto:"Às vezes até um pequeno gesto muda um dia inteiro.",
+texto:"Noites são boas para pensar.",
 opcoes:[
-{texto:"Continuar",destino:"p7"}
+{texto:"Verdade",destino:"p7"}
+]
+},
+
+p6c:{
+texto:"Tardes são equilibradas.",
+opcoes:[
+{texto:"Concordo",destino:"p7"}
 ]
 },
 
 p7:{
-texto:"Agora estamos chegando perto do final.",
+texto:"Você acredita que amizades podem começar com conversas simples?",
 opcoes:[
-{texto:"Ok",destino:"p8"}
+{texto:"Sim",destino:"p8"},
+{texto:"Talvez",destino:"p8b"},
+{texto:"Não sei",destino:"p8c"}
 ]
 },
 
 p8:{
-texto:"Mas antes eu preciso dizer uma coisa.",
+texto:"Eu também penso assim.",
 opcoes:[
-{texto:"O que?",destino:"p9"}
+{texto:"Continuar",destino:"p9"}
+]
+},
+
+p8b:{
+texto:"Talvez seja exatamente assim que algumas começam.",
+opcoes:[
+{texto:"Interessante",destino:"p9"}
+]
+},
+
+p8c:{
+texto:"Às vezes percebemos isso depois.",
+opcoes:[
+{texto:"Pode ser",destino:"p9"}
 ]
 },
 
 p9:{
-texto:"Obrigado por responder todas essas perguntas.",
+texto:"Agora uma pergunta diferente.",
 opcoes:[
-{texto:"De nada",destino:"p10"},
-{texto:"Sem problema",destino:"p10"}
+{texto:"Qual?",destino:"p10"}
 ]
 },
 
 p10:{
-texto:"Talvez tudo isso tenha sido por um motivo simples.",
+texto:"Se alguém estivesse pensando em você agora, o que acharia?",
 opcoes:[
-{texto:"Qual?",destino:"final"}
+{texto:"Legal",destino:"p11"},
+{texto:"Curioso",destino:"p11b"},
+{texto:"Estranho",destino:"p11c"}
+]
+},
+
+p11:{
+texto:"Isso é uma reação boa.",
+opcoes:[
+{texto:"Continuar",destino:"p12"}
+]
+},
+
+p11b:{
+texto:"Curiosidade pode levar a boas histórias.",
+opcoes:[
+{texto:"Continuar",destino:"p12"}
+]
+},
+
+p11c:{
+texto:"Talvez inesperado seja a palavra certa.",
+opcoes:[
+{texto:"Continuar",destino:"p12"}
+]
+},
+
+p12:{
+texto:"Você chegou quase até o final.",
+opcoes:[
+{texto:"Continuar",destino:"p13"}
+]
+},
+
+p13:{
+texto:"Obrigado por responder todas as perguntas.",
+opcoes:[
+{texto:"De nada",destino:"final"}
 ]
 },
 
 final:{
-texto:"Porque às vezes é difícil dizer algo diretamente.",
+texto:"Talvez tudo isso tenha sido por um motivo simples.",
 opcoes:[
-{texto:"Continuar",destino:"final2"}
+{texto:"Qual?",destino:"final2"}
 ]
 },
 
 final2:{
-texto:"Mas depois de tantas perguntas...",
+texto:"Porque às vezes é difícil dizer algo diretamente.",
 opcoes:[
-{texto:"...",destino:"final3"}
+{texto:"Continuar",destino:"final3"}
 ]
 },
 
 final3:{
-texto:"Talvez seja mais fácil dizer agora.",
+texto:"Mas depois de tantas perguntas...",
 opcoes:[
-{texto:"Ok",destino:"final4"}
+{texto:"...",destino:"final4"}
 ]
 },
 
 final4:{
-texto:"Então aqui vai uma coisa simples.",
+texto:"Eu só queria dizer uma coisa.",
 opcoes:[
-{texto:"...",destino:"final5"}
+{texto:"O que?",destino:"final5"}
 ]
 },
 
 final5:{
 texto:"Eu te amo.",
 opcoes:[
-{texto:"Ver surpresa",destino:"video"}
+{texto:"Ver vídeo",destino:"video"}
 ]
 },
 
 video:{
-texto:"Agora um pequeno vídeo.",
+texto:"Obrigado por jogar até o final.",
 opcoes:[]
 }
 
 }
 
-let atual="inicio"
+/* ===== MOTOR DO JOGO ===== */
+
+let atual = "inicio"
 
 function mostrarCena(){
 
-const cena=historia[atual]
+const cena = historia[atual]
 
 digitar(cena.texto)
 
-let html=""
+let html = ""
 
 cena.opcoes.forEach(op=>{
 
-html+=`<button onclick="escolher('${op.destino}')">${op.texto}</button>`
+html += `<button onclick="escolher('${op.destino}')">${op.texto}</button>`
 
 })
 
-document.getElementById("opcoes").innerHTML=html
+document.getElementById("opcoes").innerHTML = html
 
-if(atual==="video"){
+if(atual === "video"){
 
-document.getElementById("video").style.display="block"
+document.getElementById("video").style.display = "block"
 
 }
 
@@ -377,7 +473,7 @@ document.getElementById("video").style.display="block"
 
 function escolher(destino){
 
-atual=destino
+atual = destino
 
 mostrarCena()
 
