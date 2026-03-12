@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -19,89 +18,69 @@ body{
 
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
-background:#0f1226;
-overflow:hidden;
+background:#0c1024;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+overflow:hidden;
 color:white;
 
 }
 
-/* fundo animado */
+/* fundo */
 
-.fundo{
+#fundo{
 
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
 z-index:-1;
-overflow:hidden;
+pointer-events:none;
 
 }
 
-/* bolhas */
+/* personagens GIF */
 
-.bolha{
+.personagem{
 
 position:absolute;
-bottom:-100px;
-width:20px;
-height:20px;
-background:rgba(255,255,255,0.1);
-border-radius:50%;
-animation:subir 12s infinite linear;
+width:110px;
+opacity:0.9;
+animation:flutuar 6s ease-in-out infinite;
 
 }
 
-@keyframes subir{
+.p1{left:5%; bottom:5%;}
+.p2{right:5%; bottom:10%;}
+.p3{left:40%; top:5%;}
 
-0%{
-transform:translateY(0);
-opacity:0;
-}
+@keyframes flutuar{
 
-20%{
-opacity:1;
-}
-
-100%{
-transform:translateY(-110vh);
-opacity:0;
-}
+0%{transform:translateY(0px);}
+50%{transform:translateY(-15px);}
+100%{transform:translateY(0px);}
 
 }
 
-/* caixa do jogo */
+/* caixa principal */
 
 #jogo{
 
-background:rgba(20,22,45,0.8);
+background:rgba(20,22,50,0.85);
 backdrop-filter:blur(10px);
 padding:30px;
 border-radius:20px;
 width:90%;
-max-width:500px;
-box-shadow:0 0 40px rgba(0,0,0,0.5);
+max-width:520px;
+box-shadow:0 0 40px rgba(0,0,0,0.6);
 text-align:center;
-animation:aparecer 0.6s;
 
 }
 
-@keyframes aparecer{
-
-from{
-opacity:0;
-transform:scale(0.9);
-}
-
-to{
-opacity:1;
-transform:scale(1);
-}
-
-}
+/* texto */
 
 #texto{
 
@@ -111,6 +90,8 @@ line-height:1.4;
 
 }
 
+/* botões */
+
 button{
 
 display:block;
@@ -119,7 +100,7 @@ margin:10px 0;
 padding:12px;
 border:none;
 border-radius:12px;
-background:#6b7cff;
+background:#6c7cff;
 color:white;
 font-size:16px;
 cursor:pointer;
@@ -129,16 +110,18 @@ transition:0.2s;
 
 button:hover{
 
+background:#8c98ff;
 transform:scale(1.05);
-background:#8896ff;
 
 }
 
+/* vídeo */
+
 iframe{
 
-margin-top:15px;
-border-radius:12px;
 border:none;
+border-radius:12px;
+margin-top:15px;
 
 }
 
@@ -148,43 +131,29 @@ border:none;
 
 <body>
 
-<div class="fundo" id="fundo"></div>
+<div id="fundo">
+
+<img src="img/chiikawa1.gif" class="personagem p1">
+<img src="img/chiikawa2.gif" class="personagem p2">
+<img src="img/chiikawa3.gif" class="personagem p3">
+
+</div>
 
 <div id="jogo">
 
 <div id="texto"></div>
-
 <div id="opcoes"></div>
 
 </div>
 
 <script>
 
-/* criar bolhas animadas */
-
-const fundo=document.getElementById("fundo")
-
-for(let i=0;i<30;i++){
-
-const b=document.createElement("div")
-
-b.className="bolha"
-
-b.style.left=Math.random()*100+"%"
-b.style.animationDuration=(8+Math.random()*10)+"s"
-b.style.width=(10+Math.random()*25)+"px"
-b.style.height=b.style.width
-
-fundo.appendChild(b)
-
-}
-
-/* historia */
+/* HISTÓRIA */
 
 const historia={
 
 inicio:{
-texto:"Aoba Sneijder. Fiz esse pequeno joguinho meio aleatório. Só vai clicando nas coisas e vê onde isso vai parar.",
+texto:"Aoba Sneijder. Fiz esse joguinho meio aleatório. Só vai clicando nas coisas.",
 opcoes:[
 {texto:"Bora",destino:"p1"},
 {texto:"Ok então",destino:"p1"}
@@ -200,73 +169,43 @@ opcoes:[
 },
 
 dia:{
-texto:"Dia tem uma energia estranha. Parece que o mundo inteiro tá acordando junto.",
+texto:"O dia tem uma energia interessante. Parece que tudo pode acontecer.",
 opcoes:[
 {texto:"Continuar",destino:"p2"}
 ]
 },
 
 noite:{
-texto:"A noite é silenciosa. Dá pra pensar em muita coisa.",
+texto:"A noite é mais silenciosa. Dá pra pensar em muita coisa.",
 opcoes:[
 {texto:"Continuar",destino:"p2"}
 ]
 },
 
 p2:{
-texto:"Agora algo aleatório: você prefere praia, montanha ou floresta?",
+texto:"Você prefere explorar lugares ou ficar em casa tranquilo?",
 opcoes:[
-{texto:"Praia",destino:"praia"},
-{texto:"Montanha",destino:"montanha"},
-{texto:"Floresta",destino:"floresta"}
+{texto:"Explorar",destino:"explorar"},
+{texto:"Casa",destino:"casa"}
 ]
 },
 
-praia:{
-texto:"Som das ondas, vento... parece tranquilo.",
-opcoes:[
-{texto:"Continuar",destino:"p3"}
-]
-},
-
-montanha:{
-texto:"Montanhas têm uma vista absurda.",
+explorar:{
+texto:"Explorar sempre traz histórias novas.",
 opcoes:[
 {texto:"Continuar",destino:"p3"}
 ]
 },
 
-floresta:{
-texto:"Florestas são misteriosas. Parece que algo sempre está escondido.",
+casa:{
+texto:"Às vezes ficar em casa é perfeito.",
 opcoes:[
 {texto:"Continuar",destino:"p3"}
 ]
 },
 
 p3:{
-texto:"Você prefere falar muito ou observar mais?",
-opcoes:[
-{texto:"Falar",destino:"fala"},
-{texto:"Observar",destino:"obs"}
-]
-},
-
-fala:{
-texto:"Conversar é uma boa forma de entender alguém.",
-opcoes:[
-{texto:"Continuar",destino:"p4"}
-]
-},
-
-obs:{
-texto:"Observar também diz muito sobre as pessoas.",
-opcoes:[
-{texto:"Continuar",destino:"p4"}
-]
-},
-
-p4:{
-texto:"Agora uma pergunta importante: gatos ou cachorros?",
+texto:"Agora algo aleatório: gatos ou cachorros?",
 opcoes:[
 {texto:"Gatos",destino:"gato"},
 {texto:"Cachorros",destino:"cachorro"},
@@ -275,28 +214,28 @@ opcoes:[
 },
 
 gato:{
-texto:"Gatos são meio misteriosos.",
+texto:"Gatos são meio caóticos mas legais.",
 opcoes:[
-{texto:"Continuar",destino:"p5"}
+{texto:"Continuar",destino:"p4"}
 ]
 },
 
 cachorro:{
-texto:"Cachorros são extremamente leais.",
+texto:"Cachorros são extremamente companheiros.",
 opcoes:[
-{texto:"Continuar",destino:"p5"}
+{texto:"Continuar",destino:"p4"}
 ]
 },
 
 ambos:{
-texto:"Boa resposta.",
+texto:"Boa escolha.",
 opcoes:[
-{texto:"Continuar",destino:"p5"}
+{texto:"Continuar",destino:"p4"}
 ]
 },
 
-p5:{
-texto:"Depois de tudo isso... você deve estar pensando qual é o objetivo disso.",
+p4:{
+texto:"Depois de tantas perguntas... você deve estar curioso.",
 opcoes:[
 {texto:"Sim",destino:"curioso"},
 {texto:"Talvez",destino:"curioso"}
@@ -304,7 +243,7 @@ opcoes:[
 },
 
 curioso:{
-texto:"Na real eu só queria fazer algo diferente pra você ver.",
+texto:"Na verdade eu só queria fazer algo divertido pra você.",
 opcoes:[
 {texto:"Continuar",destino:"final1"}
 ]
@@ -331,6 +270,8 @@ video:true
 
 }
 
+/* MOTOR */
+
 let atual="inicio"
 
 function mostrarCena(){
@@ -340,7 +281,6 @@ const cena=historia[atual]
 document.getElementById("texto").innerText=cena.texto
 
 const opcoesDiv=document.getElementById("opcoes")
-
 opcoesDiv.innerHTML=""
 
 if(cena.video){
@@ -353,7 +293,6 @@ allowfullscreen>
 `
 
 return
-
 }
 
 cena.opcoes.forEach(opcao=>{
@@ -380,7 +319,4 @@ mostrarCena()
 </script>
 
 </body>
-
 </html>
-```
-
